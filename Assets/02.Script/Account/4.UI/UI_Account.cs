@@ -23,7 +23,7 @@ public class UI_Account : MonoBehaviour
 
         // 버튼 이벤트 연결
         _loginButton.onClick.AddListener(() => _ = OnLoginClicked());
-        _registerButton.onClick.AddListener(() => _ = OnRegisterClicked());
+        _registerButton.onClick.AddListener(() => _ = OnSignUpClicked());
     }
 
     private void SetInteractable(bool state)
@@ -45,16 +45,16 @@ public class UI_Account : MonoBehaviour
 
         try
         {
-            var account = await AccountManager.Instance.LoginAsync(email, password);
-            ShowMessage($"로그인 성공, {account.NickName}");
+            await AccountManager.Instance.LoginAsync(email, password);
+            ShowMessage("로그인 성공");
         }
-        catch (Exception e)
+        catch
         {
-            ShowMessage($"로그인 실패: {e.Message}");
+            ShowMessage("로그인 실패");
         }
     }
 
-    private async Task OnRegisterClicked()
+    private async Task OnSignUpClicked()
     {
         string email = _emailInput.text.Trim();
         string password = _passwordInput.text.Trim();
@@ -62,25 +62,43 @@ public class UI_Account : MonoBehaviour
 
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(name))
         {
-            ShowMessage("모든 필드를 입력하세요.");
+            ShowMessage("모든 항목을 입력해라~");
             return;
         }
 
+        // 이메일 명세 검사
+        var emailSpec = new AccountEmailSpecification();
+        if (!emailSpec.IsStatisfiedBy(email))
+        {
+            ShowMessage(emailSpec.ErrorMessage);
+            return;
+        }
+
+        // 닉네임 명세 검사
+        var nameSpec = new AccountNameSpecification();
+        if (!nameSpec.IsStatisfiedBy(name))
+        {
+            ShowMessage(nameSpec.ErrorMessage);
+            return;
+        }
+
+        //로그인 시도
         try
         {
-            var account = await AccountManager.Instance.RegisterAsync(email, password, name);
-            ShowMessage($"회원가입 성공! 닉네임: {account.NickName}");
+            var account = await AccountManager.Instance.SignUpAsync(email, password, name);
+            ShowMessage($"회원가입 성공 : {account}님 하이용~");
         }
         catch (Exception e)
         {
-            ShowMessage($"회원가입 실패: {e.Message}");
+            ShowMessage($"회원가입: {e.Message}");
         }
     }
 
     private void ShowMessage(string message)
     {
-        if (_messageText != null)
-            _messageText.text = message;
-        Debug.Log(message);
+        if (_messageText == null) return;
+
+        _messageText.gameObject.SetActive(true);
+        _messageText.text = message;
     }
 }
