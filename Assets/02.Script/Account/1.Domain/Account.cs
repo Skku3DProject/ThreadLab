@@ -12,11 +12,14 @@ public class Account
         var nameSpec = new AccountNameSpecification();
 
         if (!emailSpec.IsStatisfiedBy(email))
+        {
             throw new ArgumentException(emailSpec.ErrorMessage);
+        }
 
         if (!nameSpec.IsStatisfiedBy(nickName))
+        {
             throw new ArgumentException(nameSpec.ErrorMessage);
-
+        }
         Email = email;
         NickName = nickName;
     }
