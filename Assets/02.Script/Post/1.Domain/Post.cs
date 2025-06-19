@@ -5,7 +5,6 @@ using Unity.VisualScripting;
 
 public class Post
 {
-    public string Title { get; private set; }
     public readonly string ID;
     public readonly string Email;
     public readonly string NickName;
@@ -16,49 +15,42 @@ public class Post
     //public string LimitText { get; private set; }
     //public readonly int LimitTextCount;
 
-    public Post(string title, string id, string email, string nickName, string text, DateTime writeTime, List<Like> likes)
+    public Post( string id, string email, string nickName, string text, DateTime writeTime, List<Like> likes)
     {
+        //if (string.IsNullOrEmpty(id))
+        //{
+        //    throw new Exception("id는 비어있을 수 없습니다.");
+        //}
 
-        if (string.IsNullOrEmpty(title))
-        {
-            throw new Exception("title는 비어있을 수 없습니다.");
-        }
+        //var emailSpec = new AccountEmailSpecification();
+        //var nameSpec = new AccountNameSpecification();
 
-        if (string.IsNullOrEmpty(id))
-        {
-            throw new Exception("id는 비어있을 수 없습니다.");
-        }
+        //if (!emailSpec.IsStatisfiedBy(email))
+        //{
+        //    throw new ArgumentException(emailSpec.ErrorMessage);
+        //}
 
-        var emailSpec = new AccountEmailSpecification();
-        var nameSpec = new AccountNameSpecification();
+        //if (!nameSpec.IsStatisfiedBy(nickName))
+        //{
+        //    throw new ArgumentException(nameSpec.ErrorMessage);
+        //}
 
-        if (!emailSpec.IsStatisfiedBy(email))
-        {
-            throw new ArgumentException(emailSpec.ErrorMessage);
-        }
+        //// text 명세 필요
+        //if (string.IsNullOrEmpty(text))
+        //{
+        //    throw new Exception("text는 비어있을 수 없습니다.");
+        //}
 
-        if (!nameSpec.IsStatisfiedBy(nickName))
-        {
-            throw new ArgumentException(nameSpec.ErrorMessage);
-        }
+        //if (writeTime == new DateTime())
+        //{
+        //    throw new Exception("writeTime는 비어있을 수 없습니다.");
+        //}
 
-        // text 명세 필요
-        if (string.IsNullOrEmpty(text))
-        {
-            throw new Exception("text는 비어있을 수 없습니다.");
-        }
+        //if (likes != null)
+        //{
+        //    Likes = new List<Like>(likes);
+        //}
 
-        if (writeTime == new DateTime())
-        {
-            throw new Exception("writeTime는 비어있을 수 없습니다.");
-        }
-
-        if (likes != null)
-        {
-            Likes = new List<Like>(likes);
-        }
-
-        Title = title;
         ID = id;
         Email = email;
         NickName = nickName;
@@ -67,7 +59,6 @@ public class Post
     }
     public Post(Dictionary<string, object> mapData)
     {
-        Title = mapData.ContainsKey("Title") ? mapData["Title"] as string : null;
         ID = mapData.ContainsKey("ID") ? mapData["ID"] as string : null;
         Email = mapData.ContainsKey("Email") ? mapData["Email"] as string : null;
         NickName = mapData.ContainsKey("NickName") ? mapData["NickName"] as string : null;

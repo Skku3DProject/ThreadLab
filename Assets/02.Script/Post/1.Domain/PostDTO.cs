@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PostDTO 
 {
-    public readonly string Title;
     public readonly string ID;
     public readonly string Email;
     public readonly string NickName;
@@ -14,7 +13,6 @@ public class PostDTO
 
     public PostDTO(Post post)
     {
-        Title = post.Title;
         ID = post.ID;
         Email = post.Email;
         NickName = post.NickName;
@@ -39,7 +37,6 @@ public class PostDTO
 
         return new Dictionary<string, object>
         {
-            { "Title", Title },
             { "ID", ID },
             { "Email", Email },
             { "NickName", NickName },

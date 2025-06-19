@@ -1,9 +1,7 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
-using UnityEngine;
 
 public class PostManager : MonoBehaviourSingleton<PostManager>
 {
@@ -13,8 +11,9 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
     private PostRepository _postRepository;
 
     public PostDTO CurrentPost;
-    
+
     public event Action OnDataChanged;
+    public event Action OnShowDetail;
     protected override void Awake()
     {
         base.Awake();
@@ -22,7 +21,7 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
 
     private async void Start()
     {
-       await InitAsync();
+        await InitAsync();
     }
 
     private async Task InitAsync()
@@ -32,8 +31,11 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
 
     }
 
-    public async Task AddPost(PostDTO postDTO)
+    public async Task AddPost(string text)
     {
+        Account account = AccountManager.Instance.MyAccount;
+        PostDTO postDTO = new Post(account.Email + DateTime.UtcNow, account.Email, account.NickName, text, DateTime.UtcNow, null).ToDTO();
+        UnityEngine.Debug.Log(postDTO.Email);
         await _postRepository.AddPost(postDTO);
     }
 
@@ -49,12 +51,12 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
     {
         PostDTO postdto = PostList.Find(a => a.ID == id);
 
-        if(postdto == null)
+        if (postdto == null)
         {
             throw new Exception("postdto not found");
         }
 
         return postdto;
     }
-    
+
 }
