@@ -13,7 +13,14 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
     public PostDTO CurrentPost;
 
     public event Action OnDataChanged;
-    public event Action OnShowDetail;
+    public event Action<string> OnShowDetail;
+
+    public void InvokeEvent()
+    {
+        // 이때 CurrentPost도 변경해줘야함 현재 보는 디테일 패널의 post로
+        OnShowDetail.Invoke(CurrentPost.ID);
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -36,8 +43,8 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
      //   Account account = AccountManager.Instance.MyAccount;
         //PostDTO postDTO = new Post(account.Email + DateTime.UtcNow, account.Email, account.NickName, text, DateTime.UtcNow, null).ToDTO();
         PostDTO postDTO = new Post("account.Email" + DateTime.UtcNow, "account.Email", "account.NickName", text, DateTime.UtcNow, null).ToDTO();
-       
-        await _postRepository.AddPost(postDTO);
+        CurrentPost = postDTO;
+         await _postRepository.AddPost(postDTO);
     }
 
     public async Task UpdatePost()

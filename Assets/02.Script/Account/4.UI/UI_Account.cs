@@ -13,8 +13,9 @@ public class UI_Account : MonoBehaviour
     [SerializeField] private Button _goToSignupPanelButton;
     [SerializeField] private TMP_InputField _loginEmaillField;
     [SerializeField] private TMP_InputField _loginPasswordField;
-
-
+    [SerializeField] private GameObject _loginMessage;
+    [SerializeField] private TextMeshProUGUI _loginMessageText;
+    [SerializeField] private Button _loginMessageButton;
 
     [Header("회원가입")]
     [SerializeField] GameObject SingupPanel;
@@ -23,14 +24,9 @@ public class UI_Account : MonoBehaviour
     [SerializeField] private TMP_InputField _singupEmailInput;
     [SerializeField] private TMP_InputField _signupPasswordInput;
     [SerializeField] private TMP_InputField _singupNameInput;
-
-
-
-
-
-
-    [SerializeField] private TextMeshProUGUI _messageText;
-
+    [SerializeField] private GameObject _signupMessage;
+    [SerializeField] private TextMeshProUGUI _signupMessageText;
+    [SerializeField] private Button _signupMessageButton;
 
 
     private async void Start()
@@ -47,8 +43,14 @@ public class UI_Account : MonoBehaviour
         _goToSignupPanelButton.onClick.AddListener(OnClickGoToSingupPanel);
         _goToLoginPanelButton.onClick.AddListener(OnClickGoToLoginPanel);
 
+        _loginMessageButton.onClick.AddListener(OnClickLoginMessageButton);
+        _signupMessageButton.onClick.AddListener(OnClickSignupMessageButton);
+
         OnClickGoToLoginPanel();
     }
+
+    private void OnClickLoginMessageButton() => _loginMessage.SetActive(false);
+    private void OnClickSignupMessageButton() => _signupMessage.SetActive(false);
     private void OnClickGoToSingupPanel()
     {
         LoginPanel.SetActive(false);
@@ -116,9 +118,9 @@ public class UI_Account : MonoBehaviour
         try
         {
             var account = await AccountManager.Instance.SignUpAsync(email, password, name);
-            Debug.Log("회원가입 성공");
 
             ShowMessage($"회원가입 성공 : {account}님 하이용~");
+            OnClickGoToLoginPanel();
         }
         catch (Exception e)
         {
@@ -128,9 +130,23 @@ public class UI_Account : MonoBehaviour
 
     private void ShowMessage(string message)
     {
-        if (_messageText == null) return;
+        if(LoginPanel.activeSelf == true)
+        {
+            if (_loginMessageText == null) return;
 
-        _messageText.gameObject.SetActive(true);
-        _messageText.text = message;
+            _loginMessageText.gameObject.SetActive(true);
+            _loginMessageText.text = message;
+
+            _loginMessage.SetActive(true);
+        }
+        else
+        {
+            if (_signupMessageText == null) return;
+
+            _signupMessageText.gameObject.SetActive(true);
+            _signupMessageText.text = message;
+
+            _signupMessage.SetActive(true);
+        }
     }
 }

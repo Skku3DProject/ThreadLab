@@ -8,6 +8,7 @@ public class UI_PostSlot : MonoBehaviour
     public int MaxHeight;
     public Button button;
     public UI_Post UI_Post;
+
     public void Start()
     {
         button.onClick.AddListener(() =>UI_Post.ShowDetailPost());

@@ -61,6 +61,7 @@ public class UI_Post : MonoBehaviour
 
     public void ShowDetailPost()
     {
+        PostManager.Instance.InvokeEvent();
         foreach (UI_PostPopup popup in PostPopupList)
         {
             if (popup.PostPopup == EPostPopup.DetailPost)

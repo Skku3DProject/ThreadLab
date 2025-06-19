@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using System;
 public class CommentManager : MonoBehaviourSingleton<CommentManager>
 {
     private CommentRepository _repository;
     private List<Comment> _comments;
 
+    public event Action<string> OnDataChanged;
 
     protected override void Awake()
     {
@@ -19,7 +21,6 @@ public class CommentManager : MonoBehaviourSingleton<CommentManager>
     private async void Start()
     {
         await InitAsync();
-        await PostComment("post", AccountManager.Instance.MyAccount.NickName, AccountManager.Instance.MyAccount.Email, "ÇÜ¹ö°Å´Â ¿Õ¸ÀÀÖ¾î");
     }
 
     private async Task InitAsync()
@@ -29,6 +30,7 @@ public class CommentManager : MonoBehaviourSingleton<CommentManager>
     public async Task PostComment(string postId, string username, string useremail, string content)
     {
         _comments.Add(await _repository.PostComment(postId, username, useremail, content));
+        OnDataChanged.Invoke(PostManager.Instance.CurrentPost.ID);
     }
     public async Task DeleteComment(string commentID)
     {
@@ -36,5 +38,8 @@ public class CommentManager : MonoBehaviourSingleton<CommentManager>
         var deletedComment = _comments.Find(c => c.CommentUID == commentID);
         _comments.Remove(deletedComment);
     }
-
+    public List<Comment> GetCommentsByPostId(string postId)
+    {
+        return _comments.FindAll(c => c.PostUID == postId);
+    }
 }
