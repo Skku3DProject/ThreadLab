@@ -22,7 +22,7 @@ public class UI_Account : MonoBehaviour
         SetInteractable(true);
 
         // 버튼 이벤트 연결
-        _loginButton.onClick.AddListener(() => _ = OnLoginClicked());
+        _loginButton.onClick.AddListener(OnLoginClicked);
         _registerButton.onClick.AddListener(() => _ = OnSignUpClicked());
     }
 
@@ -32,7 +32,7 @@ public class UI_Account : MonoBehaviour
         _registerButton.interactable = state;
     }
 
-    private async Task OnLoginClicked()
+    private void OnLoginClicked()
     {
         string email = _emailInput.text.Trim();
         string password = _passwordInput.text.Trim();
@@ -43,15 +43,9 @@ public class UI_Account : MonoBehaviour
             return;
         }
 
-        try
-        {
-            await AccountManager.Instance.LoginAsync(email, password);
-            ShowMessage("로그인 성공");
-        }
-        catch
-        {
-            ShowMessage("로그인 실패");
-        }
+
+        AccountManager.Instance.TryLoginAndMoveSceneAsync(email, password);
+
     }
 
     private async Task OnSignUpClicked()
