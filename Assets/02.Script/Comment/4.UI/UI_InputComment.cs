@@ -18,7 +18,6 @@ public class UI_InputComment : MonoBehaviour
 
         var account = AccountManager.Instance.MyAccount;
 
-        //PostManager.Instance.currenthfksdfesklfs
         string currnetPostID = PostManager.Instance.CurrentPost.ID;
         await CommentManager.Instance.PostComment(currnetPostID, account.NickName, account.Email, content);
 

@@ -30,7 +30,7 @@ public class UI_Comments : MonoBehaviour
             var slotGO = Instantiate(_slotPrefab, _slotRoot);
             var slot = slotGO.GetComponent<UI_CommentSlot>();
 
-            slot.Init(comment, this); // 부모 UI 전달
+            slot.Refresh(comment, this); // 부모 UI 전달
             _commentSlots.Add(slot);
         }
     }

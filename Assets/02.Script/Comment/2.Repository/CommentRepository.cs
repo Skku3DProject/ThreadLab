@@ -4,51 +4,45 @@ using Firebase.Firestore;
 using System.Collections.Generic;
 public class CommentRepository : FirebaseRepositoryBase
 {
-    public async Task<Comment> PostComment(string postId, string username,string useremail, string content)
+    private const string COLLECTION_NAME = "comments";
+
+    public async Task<List<CommentDTO>> LoadAllComments()
     {
-        Comment newComment = new Comment
-            (
-                commentUID: "",  // ¾ÆÁ÷ ¾øÀ½
-                postUID: postId,
-                userName: username,
-                userEmail: useremail,
-                mainText: content,
-                timestamp: Timestamp.GetCurrentTimestamp()
-            );
-
-        DocumentReference docRef = await Firestore.Collection("comments").AddAsync(newComment);
-
-        newComment.CommentUID = docRef.Id;
-        await ExecuteAsync(() => docRef.UpdateAsync("CommentUID", docRef.Id), "´ñ±Û ÀÛ¼º");
-
-        return newComment;
-    }
-    public async Task DeleteComment(string commentID)
-    {
-        await ExecuteAsync(() => Firestore.Collection("comments").Document(commentID).DeleteAsync(), "´ñ±Û»èÁ¦");
-    }
-
-    public async Task<List<Comment>> LoadAllComments()
-    {
-        var snapshot = await ExecuteAsync(() => Firestore.Collection("comments").GetSnapshotAsync(), "¸ðµç °èÁ¤ ºÒ·¯¿À±â");
-
-        var comments = new List<Comment>();
-
-        foreach (var doc in snapshot.Documents)
+        return await ExecuteAsync(async () =>
         {
-            Comment comment = new Comment(
-                        commentUID: doc.Id,
-                        postUID: doc.TryGetValue<string>("PostUID", out var postId) ? postId : "",
-                        userName: doc.TryGetValue<string>("UserName", out var name) ? name : "",
-                        userEmail: doc.TryGetValue<string>("UserEmail", out var email) ? email : "",
-                        mainText: doc.TryGetValue<string>("MainText", out var text) ? text : "",
-                        timestamp: doc.TryGetValue<Timestamp>("Timestamp", out var time) ? time : Timestamp.GetCurrentTimestamp()
-                    );
+            var snapshot = await Firestore.Collection(COLLECTION_NAME).GetSnapshotAsync();
 
-            comments.Add(comment);
-        }
+            var comments = new List<CommentDTO>();
+            foreach (var document in snapshot.Documents)
+            {
+                if (document.Exists)
+                {
+                    var comment = document.ConvertTo<CommentDTO>();
+                    comments.Add(comment);
+                }
+            }
 
-        return comments;
+            return comments;
+
+        }, "¸ðµç ´ñ±Û ·Îµå");
     }
 
+    public async Task<CommentDTO> PostComment(CommentDTO commentDTO)
+    {
+        return await ExecuteAsync(async () =>
+        {
+            var docRef = Firestore.Collection(COLLECTION_NAME).Document(commentDTO.CommentUID);
+            await docRef.SetAsync(commentDTO);
+            return commentDTO;
+        }, "´ñ±Û ÀúÀå");
+    }
+
+    public async Task DeleteComment(string commentUID)
+    {
+        await ExecuteAsync(async () =>
+        {
+            var docRef = Firestore.Collection(COLLECTION_NAME).Document(commentUID);
+            await docRef.DeleteAsync();
+        }, "´ñ±Û »èÁ¦");
+    }
 }

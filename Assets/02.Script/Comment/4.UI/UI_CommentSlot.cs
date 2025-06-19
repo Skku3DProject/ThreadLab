@@ -1,5 +1,3 @@
-using Firebase.Firestore;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +13,7 @@ public class UI_CommentSlot : MonoBehaviour
     private string _postId;
     private UI_Comments _parentUI;
 
-    public void Init(Comment comment, UI_Comments parentUI)
+    public void Refresh(Comment comment, UI_Comments parentUI)
     {
         _commentId = comment.CommentUID;
         _postId = comment.PostUID;
@@ -23,7 +21,7 @@ public class UI_CommentSlot : MonoBehaviour
 
         _userName.text = comment.UserName;
         _mainText.text = comment.MainText;
-        _timeText.text = comment.Timestamp.ToDateTime().ToString("yyyy-MM-dd HH:mm");
+        _timeText.text = comment.CreatedAt.ToString("yyyy-MM-dd HH:mm");
 
         _deleteButton.onClick.RemoveAllListeners();
         _deleteButton.onClick.AddListener(OnClickDelete);
@@ -31,7 +29,7 @@ public class UI_CommentSlot : MonoBehaviour
 
     private async void OnClickDelete()
     {
-        await CommentManager.Instance.DeleteComment(_commentId);
+        await CommentManager.Instance.DeleteComment(_commentId,AccountManager.Instance.MyAccount.Email);
         _parentUI.RefreshComments(_postId); //직접 참조한 UI 갱신
     }
 }
