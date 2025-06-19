@@ -17,6 +17,8 @@ public class AccountManager : MonoBehaviourSingleton<AccountManager>
 
     protected override void Awake()
     {
+        base.Awake();
+
         _repo = new AccountRepository();
         _accounts = new List<Account>();
     }
@@ -49,6 +51,8 @@ public class AccountManager : MonoBehaviourSingleton<AccountManager>
             if (account != null)
             {
                 _myAccount = account;
+
+                Debug.Log($"나의 계정 : {_myAccount.NickName}");
                 // 씬 전환
                 SceneManager.LoadScene(_nextSceneName);
             }

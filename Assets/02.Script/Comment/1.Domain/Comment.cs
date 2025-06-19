@@ -20,8 +20,9 @@ public class Comment
     public string MainText { get; set; }
 
     [FirestoreProperty]
-    public Timestamp Timestamp { get; set; } 
+    public Timestamp Timestamp { get; set; }
 
+    public Comment() { }
     public Comment(string commentUID, string postUID, string userName, string userEmail, string mainText, Timestamp timestamp)
     {
         CommentUID = commentUID;
