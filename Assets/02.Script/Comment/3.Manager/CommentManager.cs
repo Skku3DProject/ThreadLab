@@ -19,8 +19,6 @@ public class CommentManager : MonoBehaviourSingleton<CommentManager>
     private async void Start()
     {
         await InitAsync();
-
-        Debug.Log(AccountManager.Instance.MyAccount.NickName);
         await PostComment("post", AccountManager.Instance.MyAccount.NickName, AccountManager.Instance.MyAccount.Email, "ÇÜ¹ö°Å´Â ¿Õ¸ÀÀÖ¾î");
     }
 

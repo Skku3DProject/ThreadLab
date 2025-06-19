@@ -6,13 +6,32 @@ using TMPro;
 
 public class UI_Account : MonoBehaviour
 {
+
+    [Header("로그인")]
+    [SerializeField] GameObject LoginPanel;
     [SerializeField] private Button _loginButton;
-    [SerializeField] private Button _registerButton;
+    [SerializeField] private Button _goToSignupPanelButton;
+    [SerializeField] private TMP_InputField _loginEmaillField;
+    [SerializeField] private TMP_InputField _loginPasswordField;
+
+
+
+    [Header("회원가입")]
+    [SerializeField] GameObject SingupPanel;
+    [SerializeField] private Button _signupButton;
+    [SerializeField] private Button _goToLoginPanelButton;
+    [SerializeField] private TMP_InputField _singupEmailInput;
+    [SerializeField] private TMP_InputField _signupPasswordInput;
+    [SerializeField] private TMP_InputField _singupNameInput;
+
+
+
+
+
+
     [SerializeField] private TextMeshProUGUI _messageText;
 
-    [SerializeField] private TMP_InputField _emailInput;
-    [SerializeField] private TMP_InputField _passwordInput;
-    [SerializeField] private TMP_InputField _nameInput;
+
 
     private async void Start()
     {
@@ -23,19 +42,35 @@ public class UI_Account : MonoBehaviour
 
         // 버튼 이벤트 연결
         _loginButton.onClick.AddListener(OnLoginClicked);
-        _registerButton.onClick.AddListener(() => _ = OnSignUpClicked());
-    }
+        _signupButton.onClick.AddListener(() => _ = OnSignUpClicked());
 
+        _goToSignupPanelButton.onClick.AddListener(OnClickGoToSingupPanel);
+        _goToLoginPanelButton.onClick.AddListener(OnClickGoToLoginPanel);
+
+        OnClickGoToLoginPanel();
+    }
+    private void OnClickGoToSingupPanel()
+    {
+        LoginPanel.SetActive(false);
+        SingupPanel.SetActive(true);
+    }
+    private void OnClickGoToLoginPanel()
+    {
+        LoginPanel.SetActive(true);
+        SingupPanel.SetActive(false);
+    }
     private void SetInteractable(bool state)
     {
         _loginButton.interactable = state;
-        _registerButton.interactable = state;
+        _goToSignupPanelButton.interactable = state;
     }
 
     private void OnLoginClicked()
     {
-        string email = _emailInput.text.Trim();
-        string password = _passwordInput.text.Trim();
+        Debug.Log("클릭 로그인");
+
+        string email = _loginEmaillField.text.Trim();
+        string password = _loginPasswordField.text.Trim();
 
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {
@@ -43,6 +78,7 @@ public class UI_Account : MonoBehaviour
             return;
         }
 
+        Debug.Log("클릭 로그인");
 
         AccountManager.Instance.TryLoginAndMoveSceneAsync(email, password);
 
@@ -50,9 +86,9 @@ public class UI_Account : MonoBehaviour
 
     private async Task OnSignUpClicked()
     {
-        string email = _emailInput.text.Trim();
-        string password = _passwordInput.text.Trim();
-        string name = _nameInput.text.Trim();
+        string email = _singupEmailInput.text.Trim();
+        string password = _signupPasswordInput.text.Trim();
+        string name = _singupNameInput.text.Trim();
 
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(name))
         {
@@ -80,6 +116,8 @@ public class UI_Account : MonoBehaviour
         try
         {
             var account = await AccountManager.Instance.SignUpAsync(email, password, name);
+            Debug.Log("회원가입 성공");
+
             ShowMessage($"회원가입 성공 : {account}님 하이용~");
         }
         catch (Exception e)
