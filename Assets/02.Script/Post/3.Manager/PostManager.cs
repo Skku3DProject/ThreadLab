@@ -12,6 +12,8 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
 
     private PostRepository _postRepository;
 
+    public PostDTO CurrentPost;
+    
     public event Action OnDataChanged;
     protected override void Awake()
     {
@@ -42,4 +44,17 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
         _postList = await _postRepository.GetPosts();
         OnDataChanged?.Invoke();
     }
+
+    public PostDTO FindById(string id)
+    {
+        PostDTO postdto = PostList.Find(a => a.ID == id);
+
+        if(postdto == null)
+        {
+            throw new Exception("postdto not found");
+        }
+
+        return postdto;
+    }
+    
 }
