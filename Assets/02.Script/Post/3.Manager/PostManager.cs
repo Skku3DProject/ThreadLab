@@ -33,9 +33,10 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
 
     public async Task AddPost(string text)
     {
-        Account account = AccountManager.Instance.MyAccount;
-        PostDTO postDTO = new Post(account.Email + DateTime.UtcNow, account.Email, account.NickName, text, DateTime.UtcNow, null).ToDTO();
-        UnityEngine.Debug.Log(postDTO.Email);
+     //   Account account = AccountManager.Instance.MyAccount;
+        //PostDTO postDTO = new Post(account.Email + DateTime.UtcNow, account.Email, account.NickName, text, DateTime.UtcNow, null).ToDTO();
+        PostDTO postDTO = new Post("account.Email" + DateTime.UtcNow, "account.Email", "account.NickName", text, DateTime.UtcNow, null).ToDTO();
+       
         await _postRepository.AddPost(postDTO);
     }
 

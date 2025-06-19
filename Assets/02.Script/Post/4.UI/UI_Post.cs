@@ -26,6 +26,7 @@ public class UI_Post : MonoBehaviour
         Debug.LogWarning("?????");
         GameObject postslot = Instantiate(PostLostPrefab, Content.transform);
         UI_PostSlot uI_PostSlot = postslot.GetComponent<UI_PostSlot>();
+        uI_PostSlot.UI_Post = this;
         uI_PostSlot.PostText.text = InputField.text;
 
         await PostManager.Instance.AddPost(InputField.text);
