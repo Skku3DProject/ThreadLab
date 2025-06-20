@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class PostManager : MonoBehaviourSingleton<PostManager>
 {
-    private List<Post> _postList;
+    private List<Post> _postList = new List<Post>();
     public List<PostDTO> PostList => _postList.ConvertAll(p => p.ToDTO());
 
     private PostRepository _postRepository;
@@ -14,12 +14,6 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
 
     public event Action OnDataChanged;
     public event Action<string> OnShowDetail;
-
-    public void InvokeEvent()
-    {
-        // 이때 CurrentPost도 변경해줘야함 현재 보는 디테일 패널의 post로
-        OnShowDetail.Invoke(CurrentPost.ID);
-    }
 
     protected override void Awake()
     {
@@ -34,23 +28,27 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
     private async Task InitAsync()
     {
         _postRepository = new PostRepository();
-        _postList = await _postRepository.GetPosts();
-
+        await UpdatePost();
     }
 
     public async Task AddPost(string text)
     {
-     //   Account account = AccountManager.Instance.MyAccount;
-        //PostDTO postDTO = new Post(account.Email + DateTime.UtcNow, account.Email, account.NickName, text, DateTime.UtcNow, null).ToDTO();
-        PostDTO postDTO = new Post("account.Email" + DateTime.UtcNow, "account.Email", "account.NickName", text, DateTime.UtcNow, null).ToDTO();
+        Account account = AccountManager.Instance.MyAccount;
+        PostDTO postDTO = new Post(account.Email + DateTime.UtcNow, account.Email, account.NickName, text, DateTime.UtcNow, null).ToDTO();
+        //PostDTO postDTO = new Post("account.Email" + DateTime.UtcNow, "account.Email", "account.NickName", text, DateTime.UtcNow, null).ToDTO();
         CurrentPost = postDTO;
-         await _postRepository.AddPost(postDTO);
+        await _postRepository.AddPost(postDTO);
+        await UpdatePost();
     }
 
     public async Task UpdatePost()
     {
-        await _postRepository.UpdatePost(PostList);
-        _postList.Clear();
+        if(PostList != null || PostList.Count > 0)
+        {
+            await _postRepository.UpdatePost(PostList);
+            _postList.Clear();
+        }
+        
         _postList = await _postRepository.GetPosts();
         OnDataChanged?.Invoke();
     }
@@ -65,6 +63,13 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
         }
 
         return postdto;
+    }
+
+    public void ShowCurruntPost(string id)
+    {
+        CurrentPost = FindById(id);
+        UnityEngine.Debug.Log(CurrentPost.ID);
+        OnShowDetail?.Invoke(CurrentPost.ID);
     }
 
 }
