@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PostManager : MonoBehaviourSingleton<PostManager>
@@ -14,7 +15,7 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
 
     public event Action OnDataChanged;
     public event Action<string> OnShowDetail;
-
+    public event Action<bool> OnLikeChanged;
     protected override void Awake()
     {
         base.Awake();
@@ -87,4 +88,15 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
         return postdto;
     }
 
+    public bool LikePost(string id)
+    {
+        Post likePost = _postList.Find(a => a.ID == id);
+        
+        Debug.Log($"{likePost.ID} liked {likePost.Likes.Count}");
+        
+        // OnLikeChanged?.Invoke(likePost.LikeStateChange(AccountManager.Instance.MyAccount.Email));
+        return likePost.LikeStateChange(AccountManager.Instance.MyAccount.Email);
+    }
+    
+    
 }

@@ -246,6 +246,7 @@ GameObject:
   - component: {fileID: 238111612686386834}
   - component: {fileID: 2356113383979734127}
   - component: {fileID: 6524858287616691231}
+  - component: {fileID: 9160228513671774917}
   m_Layer: 5
   m_Name: Bottom_Image
   m_TagString: Untagged
@@ -335,6 +336,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
+--- !u!114 &9160228513671774917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418495691399508936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d952b80f1214348a3c463ec2d7fa12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LikeButton: {fileID: 4186074803909231976}
+  LikeIcon: {fileID: 7839909271210864448}
 --- !u!1 &1428707375934710936
 GameObject:
   m_ObjectHideFlags: 0
@@ -3096,4 +3111,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4647172898661203032}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9160228513671774917}
+        m_TargetAssemblyTypeName: UI_LikeSlot, Assembly-CSharp
+        m_MethodName: Refresh
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

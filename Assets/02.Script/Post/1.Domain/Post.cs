@@ -91,5 +91,24 @@ public class Post
         return new PostDTO(this);
     }
 
-   
+    public bool LikeStateChange(string id)
+    {
+        foreach (Like like in Likes)
+        {
+            if (like.Email == id)
+            {
+                Likes.Remove(like);
+                return false;
+            }
+        }
+        
+        AddLike(id);
+        return true;
+    }
+
+    public void AddLike(string email)
+    {
+        Like add = new Like(ID, email, NickName);
+        Likes.Add(add);
+    }
 }
