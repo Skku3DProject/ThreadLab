@@ -497,6 +497,7 @@ GameObject:
   - component: {fileID: 5233675145508959301}
   - component: {fileID: 7474652643187763927}
   - component: {fileID: 5025535788538537666}
+  - component: {fileID: 1364998688533850616}
   m_Layer: 5
   m_Name: WriteList_Slot
   m_TagString: Untagged
@@ -584,6 +585,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &1364998688533850616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087485876683248893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cae1af1ec37d1bb4389a4dd6b1b9aed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PostText: {fileID: 1167512031166755200}
+  PostNameText: {fileID: 5638955727401699976}
+  PostDayText: {fileID: 6584293569619825825}
+  LikeCount: {fileID: 6935985459626674723}
+  MenuButton: {fileID: 1126377106434207607}
+  MaxHeight: 50
 --- !u!1 &2329824141315840188
 GameObject:
   m_ObjectHideFlags: 0

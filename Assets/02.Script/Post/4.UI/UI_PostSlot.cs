@@ -9,36 +9,28 @@ public class UI_PostSlot : MonoBehaviour
     public TextMeshProUGUI PostNameText;
     public TextMeshProUGUI PostDayText;
     public TextMeshProUGUI LikeCount;
-    public int MaxHeight;
-    public Button PostButton;
-    public Button MenuButton;
-    public Button DeleteButton;
 
+ 
+    public Button MenuButton;
+    public int MaxHeight;
     private string _id;
 
     public void Start()
     {
-        PostButton.onClick.AddListener(() => OnClickPostSlot());
-        DeleteButton.onClick.AddListener(() => _ = OnClickDelete());
+        MenuButton.onClick.AddListener(OnClickMenu);
     }
 
     public void OnClickPostSlot()
     {
         PostManager.Instance.ShowCurruntPost(_id);
-        PostUiManager.Instance.ShowDetailPost();
-    }
-
-    public async Task OnClickDelete()
-    {
-        await PostManager.Instance.DeletePost(_id);
-        //PostUiManager.Instance.ShowMainPost();
+        PostUIManager.Instance.ShowDetailPost();
     }
 
     public void Refresh(PostDTO postDto)
     {
         _id = postDto.ID;
 
-        PostText.text = postDto.Text;
+        SetText(postDto.Text);
         PostDayText.text = postDto.WriteTime.ToString();
         PostNameText.text = postDto.NickName;
         LikeCount.text = postDto.Likes?.Count.ToString() ?? "0";
@@ -59,5 +51,10 @@ public class UI_PostSlot : MonoBehaviour
 
         // 높이 적용
         PostText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, finalHeight);
+    }
+    void OnClickMenu()
+    {
+        PostManager.Instance.ShowCurruntPost(_id);
+        PostUIManager.Instance.MoveMenu(MenuButton.GetComponent<RectTransform>());
     }
 }

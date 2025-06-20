@@ -39,63 +39,41 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
         CurrentPost = post.ToDTO();
         await _postRepository.AddPost(post.ToDTO());
         OnDataChanged?.Invoke();
-        //try
-        //{
-        //    Debug.Log("AddPost 시작");
-        //    Account account = AccountManager.Instance.MyAccount;
-        //    Debug.Log($"Account: {account?.Email}");
-
-        //    Post post = new Post(account.Email + DateTime.UtcNow, account.Email, account.NickName, text, DateTime.UtcNow, null);
-        //    Debug.Log($"Post 생성 완료: {post.ID}");
-
-        //    _postList.Add(post);
-        //    CurrentPost = post.ToDTO();
-        //    Debug.Log("CurrentPost 설정 완료");
-
-        //    await _postRepository.AddPost(post.ToDTO());
-        //    Debug.Log("Repository AddPost 완료");
-
-        //    OnDataChanged?.Invoke();
-        //    Debug.Log("OnDataChanged 호출 완료");
-        //}
-        //catch (System.Exception e)
-        //{
-        //    Debug.LogError($"AddPost 에러: {e.Message}");
-        //    Debug.LogError($"상세 에러: {e.StackTrace}");
-        //    throw; // 에러를 다시 던져서 CreatePost에서 잡을 수 있게 함
-        //}
     }
-
     public async Task UpdatePost()
     {
         if (PostList != null || PostList.Count > 0)
         {
-            await _postRepository.UpdatePost(PostList);
             _postList.Clear();
         }
 
         _postList = await _postRepository.GetPosts();
         OnDataChanged?.Invoke();
     }
-    
 
     public void ShowCurruntPost(string id)
     {
         CurrentPost = FindById(id);
-        UnityEngine.Debug.Log(CurrentPost.ID);
-        OnShowDetail?.Invoke(CurrentPost.ID);
+      
     }
 
-    public async Task DeletePost(string id)
+    public async Task UpdateWrite(string text )
     {
-        PostDTO postDTO = FindById(id);
-        _postList.Remove(_postList.Find(a => a.ID == id));
-        if (postDTO.Email != AccountManager.Instance.MyAccount.Email)
+        PostDTO postDTO = CurrentPost;
+        Post post = new Post(postDTO.Email + DateTime.UtcNow, postDTO.Email, postDTO.NickName, text, postDTO.WriteTime, postDTO.Likes);
+        await _postRepository.UpdatePost(post.ToDTO());
+        await UpdatePost();
+    }
+
+    public async Task DeletePost()
+    {
+        _postList.Remove(_postList.Find(a => a.ID == CurrentPost.ID));
+        if (CurrentPost.Email != AccountManager.Instance.MyAccount.Email)
         {
             return;
         }
-        await _postRepository.DeletePost(postDTO);
-        OnDataChanged?.Invoke();
+        await _postRepository.DeletePost(CurrentPost);
+        await UpdatePost();
     }
     public PostDTO FindById(string id)
     {

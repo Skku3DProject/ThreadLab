@@ -17,39 +17,40 @@ public class Post
 
     public Post( string id, string email, string nickName, string text, DateTime writeTime, List<Like> likes)
     {
-        //if (string.IsNullOrEmpty(id))
-        //{
-        //    throw new Exception("id는 비어있을 수 없습니다.");
-        //}
+        if (string.IsNullOrEmpty(id))
+        {
+            throw new Exception("id는 비어있을 수 없습니다.");
+        }
 
-        //var emailSpec = new AccountEmailSpecification();
-        //var nameSpec = new AccountNameSpecification();
+        var emailSpec = new AccountEmailSpecification();
+        var nameSpec = new AccountNameSpecification();
+        var textSpec = new PostTextSpedcification();
 
-        //if (!emailSpec.IsStatisfiedBy(email))
-        //{
-        //    throw new ArgumentException(emailSpec.ErrorMessage);
-        //}
+        if (!emailSpec.IsStatisfiedBy(email))
+        {
+            throw new ArgumentException(emailSpec.ErrorMessage);
+        }
 
-        //if (!nameSpec.IsStatisfiedBy(nickName))
-        //{
-        //    throw new ArgumentException(nameSpec.ErrorMessage);
-        //}
+        if (!nameSpec.IsStatisfiedBy(nickName))
+        {
+            throw new ArgumentException(nameSpec.ErrorMessage);
+        }
 
-        //// text 명세 필요
-        //if (string.IsNullOrEmpty(text))
-        //{
-        //    throw new Exception("text는 비어있을 수 없습니다.");
-        //}
+        // text 명세 필요
+        if (!textSpec.IsStatisfiedBy(text))
+        {
+            throw new Exception("text는 비어있을 수 없습니다.");
+        }
 
-        //if (writeTime == new DateTime())
-        //{
-        //    throw new Exception("writeTime는 비어있을 수 없습니다.");
-        //}
+        if (writeTime == new DateTime())
+        {
+            throw new Exception("writeTime는 비어있을 수 없습니다.");
+        }
 
-        //if (likes != null)
-        //{
-        //    Likes = new List<Like>(likes);
-        //}
+        if (likes != null)
+        {
+            Likes = new List<Like>(likes);
+        }
 
         ID = id;
         Email = email;

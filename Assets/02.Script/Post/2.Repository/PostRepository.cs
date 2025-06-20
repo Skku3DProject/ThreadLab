@@ -1,10 +1,6 @@
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using UnityEngine;
-using Firebase.Extensions;
 using Firebase.Firestore;
-using System;
-using UnityEditor.Experimental.GraphView;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class PostRepository : FirebaseRepositoryBase
 {
@@ -26,17 +22,14 @@ public class PostRepository : FirebaseRepositoryBase
         //}
     }
 
-    public async Task UpdatePost(List<PostDTO> posts)
+    public async Task UpdatePost(PostDTO posts)
     {
-        foreach(var pos in posts)
-        {
-            var post = pos.ToDictionary();
-            DocumentReference docRef = Firestore.Collection("posts").Document(pos.ID);
-            await ExecuteAsync(() => docRef.UpdateAsync(post), "UpdateAsync");
-        }
+        var post = posts.ToDictionary();
+        DocumentReference docRef = Firestore.Collection("posts").Document(posts.ID);
+        await ExecuteAsync(() => docRef.UpdateAsync(post), "UpdateAsync");
     }
 
-    public async Task<List<Post>> GetPosts() 
+    public async Task<List<Post>> GetPosts()
     {
         var snapshot = await ExecuteAsync(() => Firestore.Collection("posts").GetSnapshotAsync(), "모든 게시글 불러오기");
 
@@ -55,7 +48,7 @@ public class PostRepository : FirebaseRepositoryBase
         await FirebaseManager.Instance.InitTask;
         return null;
     }
- 
+
     public async Task DeletePost(PostDTO post)
     {
         await ExecuteAsync(() =>
