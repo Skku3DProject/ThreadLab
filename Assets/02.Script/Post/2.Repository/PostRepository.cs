@@ -11,7 +11,7 @@ public class PostRepository : FirebaseRepositoryBase
     public async Task AddPost(PostDTO post)
     {
         await ExecuteAsync(() =>
-            Firestore.Collection("posts").Document(post.ID).SetAsync(post.ToDictionary()), "게시글 저장");
+            Firestore.Collection("posts").AddAsync(post.ToDictionary()), "게시글 저장");
     }
 
     public async Task UpdatePost(List<PostDTO> posts)
@@ -20,7 +20,7 @@ public class PostRepository : FirebaseRepositoryBase
         {
             var post = pos.ToDictionary();
             DocumentReference docRef = Firestore.Collection("posts").Document(pos.ID);
-            await ExecuteAsync(() => docRef.UpdateAsync(post), "UpdateAsync");
+            await ExecuteAsync(() => docRef.UpdateAsync(post), "Load");
         }
     }
 
