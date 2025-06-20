@@ -60,7 +60,7 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
     public async Task UpdateWrite(string text )
     {
         PostDTO postDTO = CurrentPost;
-        Post post = new Post(postDTO.Email + DateTime.UtcNow, postDTO.Email, postDTO.NickName, text, postDTO.WriteTime, postDTO.Likes);
+        Post post = new Post(postDTO.ID, postDTO.Email, postDTO.NickName, text, postDTO.WriteTime, postDTO.Likes);
         await _postRepository.UpdatePost(post.ToDTO());
         await UpdatePost();
     }

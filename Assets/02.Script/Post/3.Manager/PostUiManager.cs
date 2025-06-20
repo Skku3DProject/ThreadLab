@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PostUIManager : MonoBehaviourSingleton<PostUIManager>
 {
@@ -11,23 +12,45 @@ public class PostUIManager : MonoBehaviourSingleton<PostUIManager>
 
     public RectTransform Menu_PanelRectTransform;
 
+    public event Action OnShowPostDetail;
     protected override void Awake()
     {
         base.Awake();
     }
-
-
-    public void MoveMenu(RectTransform RectTransform)
+    public void MenuOnOff(RectTransform targetRectTransform)
     {
-        Menu_PanelRectTransform.gameObject.SetActive(true);
-        if (Menu_PanelRectTransform == null)
+        if(Menu_PanelRectTransform.gameObject.activeSelf)
         {
-            Debug.LogError("Target UI RectTransform이 할당되지 않았습니다. Inspector에서 할당해주세요.");
+            Menu_PanelRectTransform.gameObject.SetActive(false);
             return;
         }
 
-        Menu_PanelRectTransform.localPosition = RectTransform.localPosition;
+        Menu_PanelRectTransform.gameObject.SetActive(true);
+
+        Vector3 targetLocalPosition = Menu_PanelRectTransform.parent.InverseTransformPoint(targetRectTransform.position);
+
+        // 버튼 아래쪽에 메뉴 표시 (오프셋 추가)
+        Vector2 menuSize = Menu_PanelRectTransform.sizeDelta;
+        Vector2 buttonSize = targetRectTransform.sizeDelta;
+
+        targetLocalPosition.y -= (buttonSize.y / 2 + menuSize.y / 2 + 10f); // 버튼 아래 10px 여백
+
+        // 경계 체크 후 조정
+        Canvas canvas = Menu_PanelRectTransform.GetComponentInParent<Canvas>();
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+
+        float margin = 10f;
+        float leftBound = -canvasRect.rect.width / 2 + menuSize.x / 2 + margin;
+        float rightBound = canvasRect.rect.width / 2 - menuSize.x / 2 - margin;
+        float bottomBound = -canvasRect.rect.height / 2 + menuSize.y / 2 + margin;
+        float topBound = canvasRect.rect.height / 2 - menuSize.y / 2 - margin;
+
+        targetLocalPosition.x = Mathf.Clamp(targetLocalPosition.x, leftBound, rightBound);
+        targetLocalPosition.y = Mathf.Clamp(targetLocalPosition.y, bottomBound, topBound);
+
+        Menu_PanelRectTransform.localPosition = targetLocalPosition;
     }
+
     public void ShowWrithPost()
     {
         foreach (UI_PostPopup popup in PostPopupList)
@@ -40,6 +63,7 @@ public class PostUIManager : MonoBehaviourSingleton<PostUIManager>
             popup.gameObject.SetActive(false);
         }
 
+        Menu_PanelRectTransform.gameObject.SetActive(false);
     }
     public void ShowMainPost()
     {
@@ -52,6 +76,7 @@ public class PostUIManager : MonoBehaviourSingleton<PostUIManager>
             }
             popup.gameObject.SetActive(false);
         }
+        Menu_PanelRectTransform.gameObject.SetActive(false);
     }
 
     public void ShowDetailPost()
@@ -65,6 +90,8 @@ public class PostUIManager : MonoBehaviourSingleton<PostUIManager>
             }
             popup.gameObject.SetActive(false);
         }
+        Menu_PanelRectTransform.gameObject.SetActive(false);
+        OnShowPostDetail?.Invoke();
     }
 
     public void ShowReWrithPost()
@@ -78,5 +105,6 @@ public class PostUIManager : MonoBehaviourSingleton<PostUIManager>
             }
             popup.gameObject.SetActive(false);
         }
+        Menu_PanelRectTransform.gameObject.SetActive(false);
     }
 }

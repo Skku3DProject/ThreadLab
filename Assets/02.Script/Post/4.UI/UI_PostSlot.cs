@@ -55,6 +55,7 @@ public class UI_PostSlot : MonoBehaviour
     void OnClickMenu()
     {
         PostManager.Instance.ShowCurruntPost(_id);
-        PostUIManager.Instance.MoveMenu(MenuButton.GetComponent<RectTransform>());
+        RectTransform rectTransform = MenuButton.GetComponent<RectTransform>();
+        PostUIManager.Instance.MenuOnOff(rectTransform);
     }
 }

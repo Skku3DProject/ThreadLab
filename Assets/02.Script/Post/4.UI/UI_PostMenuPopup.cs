@@ -22,6 +22,11 @@ public class UI_PostMenuPopup : MonoBehaviour
     // 수정하기
     public void OnClickReWrith() 
     {
+        if(AccountManager.Instance.MyAccount.Email != PostManager.Instance.CurrentPost.Email)
+        {
+            return;
+        }
+
         PostUIManager.Instance.ShowReWrithPost();
         gameObject.SetActive(false);
     }

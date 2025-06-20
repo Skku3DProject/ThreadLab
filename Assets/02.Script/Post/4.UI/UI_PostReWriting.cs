@@ -29,5 +29,6 @@ public class UI_PostReWriting : MonoBehaviour
     public async Task OnClickReWrite()
     {
         await PostManager.Instance.UpdateWrite(ReWrithInputField.text);
+        ShowMainPost();
     }
 }
