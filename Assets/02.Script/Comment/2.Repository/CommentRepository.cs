@@ -6,19 +6,21 @@ public class CommentRepository : FirebaseRepositoryBase
 {
     private const string COLLECTION_NAME = "comments";
 
-    public async Task<List<CommentDTO>> LoadAllComments()
+    public async Task<List<Comment>> LoadAllComments()
     {
         return await ExecuteAsync(async () =>
         {
             var snapshot = await Firestore.Collection(COLLECTION_NAME).GetSnapshotAsync();
 
-            var comments = new List<CommentDTO>();
+            var comments = new List<Comment>();
             foreach (var document in snapshot.Documents)
             {
                 if (document.Exists)
                 {
                     var comment = document.ConvertTo<CommentDTO>();
-                    comments.Add(comment);
+                    Debug.Log($"{comment.UserName}");
+                    var com = new Comment(comment.CommentUID, comment.PostUID,comment.UserName,comment.UserEmail,comment.MainText, comment.Timestamp.ToDateTime());
+                    comments.Add(com);
                 }
             }
 

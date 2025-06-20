@@ -9,7 +9,7 @@ public class CommentManager : MonoBehaviourSingleton<CommentManager>
 {
     private CommentRepository _repository;
     private List<Comment> _comments;
-    private List<CommentDTO> _commentsDTO;
+    private List<CommentDTO> _commentsDTO => _comments.ConvertAll(c => c.ToDTO());
 
     // 검증 상수
     private const int MAX_CONTENT_LENGTH = 500;
@@ -30,11 +30,11 @@ public class CommentManager : MonoBehaviourSingleton<CommentManager>
     
     public async void Start()
     { 
-       _commentsDTO = await LoadAllComments();
+       _comments = await LoadAllComments();
        Debug.Log(_commentsDTO.Count);
     }
 
-    public async Task<List<CommentDTO>> LoadAllComments()
+    public async Task<List<Comment>> LoadAllComments()
     {
        return await _repository.LoadAllComments();
     }
@@ -51,13 +51,11 @@ public class CommentManager : MonoBehaviourSingleton<CommentManager>
             // Repository에 저장 (DTO로 변환해서)
             var savedDTO = await _repository.PostComment(newComment.ToDTO());
 
-            _commentsDTO.Add(newComment.ToDTO());
+            _comments.Add(newComment);
 
             //OnCommentAdded?.Invoke(newComment);
             OnDataChanged?.Invoke(postId);
             
-            Debug.Log(_commentsDTO.Count);
-
             Debug.Log($"댓글 생성 성공: {newComment.CommentUID}");
             return true;
         }
