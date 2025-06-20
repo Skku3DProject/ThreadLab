@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 public class PostManager : MonoBehaviourSingleton<PostManager>
@@ -34,25 +33,38 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
     public async Task AddPost(string text)
     {
         Account account = AccountManager.Instance.MyAccount;
-        PostDTO postDTO = new Post(account.Email + DateTime.UtcNow, account.Email, account.NickName, text, DateTime.UtcNow, null).ToDTO();
-        //PostDTO postDTO = new Post("account.Email" + DateTime.UtcNow, "account.Email", "account.NickName", text, DateTime.UtcNow, null).ToDTO();
-        CurrentPost = postDTO;
-        await _postRepository.AddPost(postDTO);
-        await UpdatePost();
+        Post post = new Post(account.Email + DateTime.UtcNow, account.Email, account.NickName, text, DateTime.UtcNow, null);
+        _postList.Add(post);
+        CurrentPost = post.ToDTO();
+        await _postRepository.AddPost(post.ToDTO());
+        OnDataChanged?.Invoke();
     }
 
     public async Task UpdatePost()
     {
-        if(PostList != null || PostList.Count > 0)
+        if (PostList != null || PostList.Count > 0)
         {
             await _postRepository.UpdatePost(PostList);
             _postList.Clear();
         }
-        
+
         _postList = await _postRepository.GetPosts();
         OnDataChanged?.Invoke();
     }
 
+    public async Task DeletePost(string id)
+    {
+        PostDTO postDTO = FindById(id);
+        _postList.Remove(_postList.Find(a => a.ID == id));
+        if (postDTO.Email != AccountManager.Instance.MyAccount.Email)
+        {
+            return;
+        }
+        await _postRepository.DeletePost(postDTO);
+        OnDataChanged?.Invoke();
+    }
+
+    
     public PostDTO FindById(string id)
     {
         PostDTO postdto = PostList.Find(a => a.ID == id);

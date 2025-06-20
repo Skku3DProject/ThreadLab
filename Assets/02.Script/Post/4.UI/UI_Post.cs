@@ -13,6 +13,8 @@ public class UI_Post : MonoBehaviour
 
     public Button createButton;
 
+    private List<GameObject> _posts = new List<GameObject>();
+
     public void Start()
     {
         ShowMainPost();
@@ -33,10 +35,16 @@ public class UI_Post : MonoBehaviour
 
     public void Refrlash()
     {
+        foreach (var post in _posts)
+        {
+            Destroy(post);
+        }    
+
         List<PostDTO> postDTOs = PostManager.Instance.PostList;
         foreach(var post in postDTOs)
         {
             GameObject postslot = Instantiate(PostLostPrefab, Content.transform);
+            _posts.Add(postslot);
             UI_PostSlot uI_PostSlot = postslot.GetComponent<UI_PostSlot>();
             uI_PostSlot.Refresh(post);
         }
@@ -49,6 +57,7 @@ public class UI_Post : MonoBehaviour
     public void ShowMainPost()
     {
         PostUiManager.Instance.ShowMainPost();
+        Debug.Log("ShowMain");
     }
 
     public void ShowDetailPost()
