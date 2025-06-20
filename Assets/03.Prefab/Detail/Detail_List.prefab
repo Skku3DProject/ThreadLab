@@ -3281,7 +3281,6 @@ MonoBehaviour:
   PostNameText: {fileID: 7042946263889713317}
   PostDayText: {fileID: 564744102085997385}
   LikeCount: {fileID: 3639960959149513836}
-  Menu_PanelRectTransform: {fileID: 0}
   MenuButton: {fileID: 3326604637380565858}
   MaxHeight: 0
 --- !u!1 &5657715071287388580

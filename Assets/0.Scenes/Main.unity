@@ -2655,6 +2655,34 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2032022151208148132, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032022151208148132, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032022151208148132, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1790746270}
+    - target: {fileID: 2032022151208148132, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032022151208148132, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Refresh
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032022151208148132, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI_LikeDetail, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032022151208148132, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2143243212364280738, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3029,7 +3057,7 @@ PrefabInstance:
       addedObject: {fileID: 1790746269}
     - targetCorrespondingSourceObject: {fileID: 6500382984484225375, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1790746267}
+      addedObject: {fileID: 1790746270}
     - targetCorrespondingSourceObject: {fileID: 2686750088763145453, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
       insertIndex: 1
       addedObject: {fileID: 1790746266}
@@ -3068,7 +3096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!1 &1790746264 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 6500382984484225375, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6049232365563021139, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
   m_PrefabInstance: {fileID: 1790746259}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1790746265 stripped
@@ -3090,20 +3118,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inputField: {fileID: 1790746262}
   _submitButton: {fileID: 1790746263}
---- !u!114 &1790746267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!1 &1790746267 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6500382984484225375, guid: eed26fe6ff3c61740941f6a4c4490428, type: 3}
+  m_PrefabInstance: {fileID: 1790746259}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1790746264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd8968409640134297eed5d4adfc871, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _inputField: {fileID: 0}
-  _submitButton: {fileID: 0}
 --- !u!114 &1790746268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3134,6 +3153,19 @@ MonoBehaviour:
   PostDayText: {fileID: 1612586350}
   LikeCount: {fileID: 1612586348}
   MenuButton: {fileID: 279987573}
+--- !u!114 &1790746270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790746267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27d8278022b339b4ca6668851c45ec15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LikeIcon: {fileID: 1790746264}
 --- !u!1 &1795117980
 GameObject:
   m_ObjectHideFlags: 0

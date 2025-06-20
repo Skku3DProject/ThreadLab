@@ -348,8 +348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22d952b80f1214348a3c463ec2d7fa12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LikeButton: {fileID: 4186074803909231976}
   LikeIcon: {fileID: 7839909271210864448}
+  LikeCount: {fileID: 6935985459626674723}
 --- !u!1 &1428707375934710936
 GameObject:
   m_ObjectHideFlags: 0
@@ -2512,7 +2512,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 882750337005947489}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1364998688533850616}
+        m_TargetAssemblyTypeName: UI_PostSlot, Assembly-CSharp
+        m_MethodName: OnClickPostSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6580404334319762487
 GameObject:
   m_ObjectHideFlags: 0

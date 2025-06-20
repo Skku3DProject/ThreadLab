@@ -6,6 +6,7 @@
     <file url="file://$PROJECT_DIR$/Assets/02.Script/Comment/2.Repository/CommentRepository.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/02.Script/Comment/3.Manager/CommentManager.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/02.Script/Comment/4.UI/UI_InputComment.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/02.Script/Like/1.Domain/Like.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/02.Script/Post/1.Domain/Post.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/02.Script/Post/3.Manager/PostManager.cs" charset="EUC-KR" />
   </component>

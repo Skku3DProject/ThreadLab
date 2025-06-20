@@ -1,11 +1,12 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_LikeSlot : MonoBehaviour
 {
-    public Button LikeButton;
     private string _id;
     public GameObject LikeIcon;
+    public TextMeshProUGUI LikeCount;
     private int _likeCount;
     
     private void Start()
@@ -17,12 +18,15 @@ public class UI_LikeSlot : MonoBehaviour
     public void Refresh()
     {
         Refresh(PostManager.Instance.LikePost(_id));
+        
     }
+
     public void Refresh(bool isLike)
     {
         // bool isLike = PostManager.Instance.LikePost(_id);
-     
+
         IsLikeCheck(isLike);
+        LikeCount.text = $"{PostManager.Instance.FindById(_id).Likes.Count}";
     }
 
     private void IsLikeCheck(bool isLike)
