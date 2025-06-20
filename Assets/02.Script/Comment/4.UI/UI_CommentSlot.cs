@@ -13,7 +13,7 @@ public class UI_CommentSlot : MonoBehaviour
     private string _postId;
     private UI_Comments _parentUI;
 
-    public void Refresh(Comment comment, UI_Comments parentUI)
+    public void Refresh(CommentDTO comment, UI_Comments parentUI)
     {
         _commentId = comment.CommentUID;
         _postId = comment.PostUID;
@@ -21,7 +21,7 @@ public class UI_CommentSlot : MonoBehaviour
 
         _userName.text = comment.UserName;
         _mainText.text = comment.MainText;
-        _timeText.text = comment.CreatedAt.ToString("yyyy-MM-dd HH:mm");
+        _timeText.text = comment.Timestamp.ToDateTime().ToString("yyyy-MM-dd HH:mm");
 
         _deleteButton.onClick.RemoveAllListeners();
         _deleteButton.onClick.AddListener(OnClickDelete);
@@ -30,6 +30,6 @@ public class UI_CommentSlot : MonoBehaviour
     private async void OnClickDelete()
     {
         await CommentManager.Instance.DeleteComment(_commentId,AccountManager.Instance.MyAccount.Email);
-        _parentUI.RefreshComments(_postId); //Á÷Á¢ ÂüÁ¶ÇÑ UI °»½Å
+        _parentUI.RefreshComments(_postId); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½
     }
 }

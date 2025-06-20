@@ -33,5 +33,6 @@ public class UI_Comments : MonoBehaviour
             slot.Refresh(comment, this); // 부모 UI 전달
             _commentSlots.Add(slot);
         }
+        Debug.Log("refresh comments");
     }
 }

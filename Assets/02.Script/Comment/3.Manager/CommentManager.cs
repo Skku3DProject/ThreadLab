@@ -9,6 +9,7 @@ public class CommentManager : MonoBehaviourSingleton<CommentManager>
 {
     private CommentRepository _repository;
     private List<Comment> _comments;
+    private List<CommentDTO> _commentsDTO;
 
     // 검증 상수
     private const int MAX_CONTENT_LENGTH = 500;
@@ -24,8 +25,20 @@ public class CommentManager : MonoBehaviourSingleton<CommentManager>
         base.Awake();
         _comments = new List<Comment>();
         _repository = new CommentRepository();
+
+    }
+    
+    public async void Start()
+    { 
+       _commentsDTO = await LoadAllComments();
+       Debug.Log(_commentsDTO.Count);
     }
 
+    public async Task<List<CommentDTO>> LoadAllComments()
+    {
+       return await _repository.LoadAllComments();
+    }
+    
     public async Task<bool> PostComment(string postId, string username, string useremail, string content)
     {
         try
@@ -38,10 +51,12 @@ public class CommentManager : MonoBehaviourSingleton<CommentManager>
             // Repository에 저장 (DTO로 변환해서)
             var savedDTO = await _repository.PostComment(newComment.ToDTO());
 
-            _comments.Add(newComment);
+            _commentsDTO.Add(newComment.ToDTO());
 
             //OnCommentAdded?.Invoke(newComment);
             OnDataChanged?.Invoke(postId);
+            
+            Debug.Log(_commentsDTO.Count);
 
             Debug.Log($"댓글 생성 성공: {newComment.CommentUID}");
             return true;
@@ -85,10 +100,10 @@ public class CommentManager : MonoBehaviourSingleton<CommentManager>
         //}
     }
 
-    public List<Comment> GetCommentsByPostId(string postId)
+    public List<CommentDTO> GetCommentsByPostId(string postId)
     {
-        return _comments.Where(c => c.PostUID == postId)
-                       .OrderBy(c => c.CreatedAt)
+        return _commentsDTO.Where(c => c.PostUID == postId)
+                       .OrderBy(c => c.Timestamp)
                        .ToList();
     }
 
