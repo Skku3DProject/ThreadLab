@@ -20,6 +20,7 @@ public class UI_Post : MonoBehaviour
         ShowMainPost();
         createButton.onClick.AddListener(() => _ = CreatePost());
         PostManager.Instance.OnDataChanged += Refrlash;
+        
     }
 
     public async Task CreatePost()

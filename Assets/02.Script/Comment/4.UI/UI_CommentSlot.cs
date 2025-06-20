@@ -21,7 +21,7 @@ public class UI_CommentSlot : MonoBehaviour
 
         _userName.text = comment.UserName;
         _mainText.text = comment.MainText;
-        _timeText.text = comment.Timestamp.ToDateTime().ToString("yyyy-MM-dd HH:mm");
+        _timeText.text = comment.Timestamp.ToDateTime().ToString("yyyy-MM-dd");
 
         _deleteButton.onClick.RemoveAllListeners();
         _deleteButton.onClick.AddListener(OnClickDelete);
