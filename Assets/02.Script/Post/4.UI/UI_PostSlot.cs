@@ -14,7 +14,7 @@ public class UI_PostSlot : MonoBehaviour
     public Button MenuButton;
     public int MaxHeight;
     private string _id;
-
+    public string ID => _id;
     public void Start()
     {
         MenuButton.onClick.AddListener(OnClickMenu);
@@ -41,15 +41,15 @@ public class UI_PostSlot : MonoBehaviour
     {
         PostText.text = text;
 
-        // ÅØ½ºÆ® °­Á¦ ¾÷µ¥ÀÌÆ® ÈÄ Á¤È®ÇÑ ³ôÀÌ °è»ê
+        // ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         PostText.ForceMeshUpdate();
 
         float preferredHeight = PostText.textBounds.size.y;
 
-        // ÃÖ´ë ³ôÀÌ Á¦ÇÑ Àû¿ë
+        // ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         float finalHeight = Mathf.Min(preferredHeight, MaxHeight);
 
-        // ³ôÀÌ Àû¿ë
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         PostText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, finalHeight);
     }
     void OnClickMenu()
