@@ -10,8 +10,23 @@ public class PostRepository : FirebaseRepositoryBase
 {
     public async Task AddPost(PostDTO post)
     {
+<<<<<<< Updated upstream
         await ExecuteAsync(() =>
             Firestore.Collection("posts").AddAsync(post.ToDictionary()), "게시글 저장");
+=======
+        try
+        {
+            Debug.Log("Repository AddPost 시작");
+            await ExecuteAsync(() =>
+                Firestore.Collection("posts").Document(post.ID).SetAsync(post.ToDictionary()), "게시글 저장");
+            Debug.Log("Repository AddPost 완료");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Repository AddPost 에러: {e.Message}");
+            throw;
+        }
+>>>>>>> Stashed changes
     }
 
     public async Task UpdatePost(List<PostDTO> posts)

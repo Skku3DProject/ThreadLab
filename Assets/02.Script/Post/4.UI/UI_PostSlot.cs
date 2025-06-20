@@ -11,7 +11,34 @@ public class UI_PostSlot : MonoBehaviour
 
     public void Start()
     {
+<<<<<<< Updated upstream
         button.onClick.AddListener(() =>UI_Post.ShowDetailPost());
+=======
+        PostButton.onClick.AddListener(() => OnClickPostSlot());
+        DeleteButton.onClick.AddListener(() => _ = OnClickDelete());
+    }
+
+    public void OnClickPostSlot()
+    {
+        PostManager.Instance.ShowCurruntPost(_id);
+        PostUiManager.Instance.ShowDetailPost();
+    }
+
+    public async Task OnClickDelete()
+    {
+        await PostManager.Instance.DeletePost(_id);
+      //  PostUiManager.Instance.ShowMainPost();
+    }
+
+    public void Refresh(PostDTO postDto)
+    {
+        _id = postDto.ID;
+
+        PostText.text = postDto.Text;
+        PostDayText.text = postDto.WriteTime.ToString();
+        PostNameText.text = postDto.NickName;
+        LikeCount.text = (postDto.Likes?.Count ?? 0).ToString();
+>>>>>>> Stashed changes
     }
 
 

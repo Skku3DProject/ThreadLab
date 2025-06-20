@@ -23,6 +23,7 @@ public class UI_Post : MonoBehaviour
 
     public async Task CreatePost()
     {
+<<<<<<< Updated upstream
         Debug.LogWarning("?????");
         GameObject postslot = Instantiate(PostLostPrefab, Content.transform);
         UI_PostSlot uI_PostSlot = postslot.GetComponent<UI_PostSlot>();
@@ -31,6 +32,20 @@ public class UI_Post : MonoBehaviour
 
         await PostManager.Instance.AddPost(InputField.text);
         ShowMainPost();
+=======
+        try
+        {
+            Debug.Log($"Before AddPost - Thread: {System.Threading.Thread.CurrentThread.ManagedThreadId}");
+            await PostManager.Instance.AddPost(InputField.text);
+            Debug.Log($"After AddPost - Thread: {System.Threading.Thread.CurrentThread.ManagedThreadId}");
+            ShowMainPost();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"CreatePost 에러: {e.Message}");
+            Debug.LogError($"상세 에러: {e.StackTrace}");
+        }
+>>>>>>> Stashed changes
     }
 
     public void ShowWrithPost()

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class PostManager : MonoBehaviourSingleton<PostManager>
 {
@@ -40,11 +41,39 @@ public class PostManager : MonoBehaviourSingleton<PostManager>
 
     public async Task AddPost(string text)
     {
+<<<<<<< Updated upstream
      //   Account account = AccountManager.Instance.MyAccount;
         //PostDTO postDTO = new Post(account.Email + DateTime.UtcNow, account.Email, account.NickName, text, DateTime.UtcNow, null).ToDTO();
         PostDTO postDTO = new Post("account.Email" + DateTime.UtcNow, "account.Email", "account.NickName", text, DateTime.UtcNow, null).ToDTO();
         CurrentPost = postDTO;
          await _postRepository.AddPost(postDTO);
+=======
+        try
+        {
+            Debug.Log("AddPost 시작");
+            Account account = AccountManager.Instance.MyAccount;
+            Debug.Log($"Account: {account?.Email}");
+
+            Post post = new Post(account.Email + DateTime.UtcNow, account.Email, account.NickName, text, DateTime.UtcNow, null);
+            Debug.Log($"Post 생성 완료: {post.ID}");
+
+            _postList.Add(post);
+            CurrentPost = post.ToDTO();
+            Debug.Log("CurrentPost 설정 완료");
+
+            await _postRepository.AddPost(post.ToDTO());
+            Debug.Log("Repository AddPost 완료");
+
+            OnDataChanged?.Invoke();
+            Debug.Log("OnDataChanged 호출 완료");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"AddPost 에러: {e.Message}");
+            Debug.LogError($"상세 에러: {e.StackTrace}");
+            throw; // 에러를 다시 던져서 CreatePost에서 잡을 수 있게 함
+        }
+>>>>>>> Stashed changes
     }
 
     public async Task UpdatePost()
