@@ -8,84 +8,55 @@ public class UI_Post : MonoBehaviour
 {
     public TMP_InputField InputField;
 
-    public List<UI_PostPopup> PostPopupList;
-
     public GameObject Content;
     public GameObject PostLostPrefab;
 
     public Button createButton;
 
+    private List<GameObject> _posts = new List<GameObject>();
+
     public void Start()
     {
         ShowMainPost();
         createButton.onClick.AddListener(() => _ = CreatePost());
+        PostManager.Instance.OnDataChanged += Refrlash;
     }
 
     public async Task CreatePost()
     {
-<<<<<<< Updated upstream
-        Debug.LogWarning("?????");
-        GameObject postslot = Instantiate(PostLostPrefab, Content.transform);
-        UI_PostSlot uI_PostSlot = postslot.GetComponent<UI_PostSlot>();
-        uI_PostSlot.UI_Post = this;
-        uI_PostSlot.PostText.text = InputField.text;
-
         await PostManager.Instance.AddPost(InputField.text);
         ShowMainPost();
-=======
-        try
-        {
-            Debug.Log($"Before AddPost - Thread: {System.Threading.Thread.CurrentThread.ManagedThreadId}");
-            await PostManager.Instance.AddPost(InputField.text);
-            Debug.Log($"After AddPost - Thread: {System.Threading.Thread.CurrentThread.ManagedThreadId}");
-            ShowMainPost();
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError($"CreatePost 에러: {e.Message}");
-            Debug.LogError($"상세 에러: {e.StackTrace}");
-        }
->>>>>>> Stashed changes
     }
 
+    public void Refrlash()
+    {
+        foreach (var post in _posts)
+        {
+            Destroy(post);
+        }    
+
+        List<PostDTO> postDTOs = PostManager.Instance.PostList;
+        foreach(var post in postDTOs)
+        {
+            GameObject postslot = Instantiate(PostLostPrefab, Content.transform);
+            _posts.Add(postslot);
+            UI_PostSlot uI_PostSlot = postslot.GetComponent<UI_PostSlot>();
+            uI_PostSlot.Refresh(post);
+        }
+        ShowMainPost();
+    }
     public void ShowWrithPost()
     {
-        foreach(UI_PostPopup popup in PostPopupList)
-        {
-           if( popup.PostPopup == EPostPopup.WrithPost)
-            {
-                popup.gameObject.SetActive(true);
-                continue;
-            }
-            popup.gameObject.SetActive(false);
-        }
-     
+        PostUiManager.Instance.ShowWrithPost();
     }
     public void ShowMainPost()
     {
-        foreach (UI_PostPopup popup in PostPopupList)
-        {
-            if (popup.PostPopup == EPostPopup.MainPost)
-            {
-                popup.gameObject.SetActive(true);
-                continue;
-            }
-            popup.gameObject.SetActive(false);
-        }
+        PostUiManager.Instance.ShowMainPost();
     }
 
     public void ShowDetailPost()
     {
-        PostManager.Instance.InvokeEvent();
-        foreach (UI_PostPopup popup in PostPopupList)
-        {
-            if (popup.PostPopup == EPostPopup.DetailPost)
-            {
-                popup.gameObject.SetActive(true);
-                continue;
-            }
-            popup.gameObject.SetActive(false);
-        }
+        PostUiManager.Instance.ShowDetailPost();
     }
 
 }
